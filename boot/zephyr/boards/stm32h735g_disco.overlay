@@ -1,0 +1,74 @@
+/ {
+    chosen { 
+		mcuboot,external-memory = &mx25lm51245;
+    };
+};
+
+/*
+&flash0 {
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		boot_partition: partition@0 {
+			label = "mcuboot";
+			reg = <0x0 DT_SIZE_K(128)>;
+		};
+
+        slot0_partition: partition@20000 {
+			label = "image-0";
+            reg = <0x20000 DT_SIZE_K(256)>;
+        };
+
+        slot1_partition: partition@60000 {
+			label = "image-1";
+            reg = <0x60000 DT_SIZE_K(256)>;
+        };
+
+		storage_partition: partition@A0000 {
+			label = "storage";
+			reg = <0x00070000 DT_SIZE_K(128)>;
+		};
+    };
+};
+
+*/
+
+&flash0 {
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		boot_partition: partition@0 {
+			label = "mcuboot";
+			reg = <0x0 DT_SIZE_K(128)>;
+		};
+	};
+};
+
+&ext_memory {
+	zephyr,memory-attr = <( DT_MEM_ARM(ATTR_MPU_FLASH) )>;
+};
+
+&mx25lm51245 {
+	erase-block-size = <4096>;
+	write-block-size = <4>;
+
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+        slot0_partition: partition@0 {
+			label = "image-0";
+            reg = <0x0 DT_SIZE_K(512)>;
+        };
+
+        slot1_partition: partition@40000 {
+			label = "image-1";
+            reg = <0x40000 DT_SIZE_K(512)>;
+        };
+    };
+};
