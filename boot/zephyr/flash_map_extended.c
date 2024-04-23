@@ -18,7 +18,11 @@
 
 BOOT_LOG_MODULE_DECLARE(mcuboot);
 
-#if (!defined(CONFIG_XTENSA) && DT_HAS_CHOSEN(zephyr_flash_controller))
+#if DT_HAS_CHOSEN(mcuboot_external_memory)
+#define FLASH_DEVICE_ID SPI_FLASH_0_ID
+#define FLASH_DEVICE_NODE DT_CHOSEN(mcuboot_external_memory)
+#define FLASH_DEVICE_BASE DT_REG_ADDR(FLASH_DEVICE_NODE)
+#elif (!defined(CONFIG_XTENSA) && DT_HAS_CHOSEN(zephyr_flash_controller))
 #define FLASH_DEVICE_ID SOC_FLASH_0_ID
 #define FLASH_DEVICE_BASE CONFIG_FLASH_BASE_ADDRESS
 #define FLASH_DEVICE_NODE DT_CHOSEN(zephyr_flash_controller)
